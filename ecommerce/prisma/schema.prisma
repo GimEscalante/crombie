@@ -9,6 +9,29 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+
+model User{
+  userId String @id @unique() @default(uuid())
+  name String
+  email String @unique  
+  password String 
+}
+
+model Product{
+  productId String @id @unique() @default(uuid())
+  name String
+  description String
+  price Int 
+  categoryId String @default("")
+  category Category @relation(fields:[categoryId], references: [categoryId])
+}
+
+model Category{
+  categoryId String @id @unique @default(uuid())
+  name String
+  products Product[]
 }
