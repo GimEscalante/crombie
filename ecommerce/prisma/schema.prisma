@@ -13,25 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User{
-  userId String @id @unique() @default(uuid())
-  name String
-  email String @unique  
-  password String 
+model User {
+  userId   String @id @unique @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  role     Roles  @default(USER)
 }
 
-model Product{
-  productId String @id @unique() @default(uuid())
-  name String
+model Product {
+  productId   String   @id @unique @default(uuid())
+  name        String
   description String
-  price Int 
-  categoryId String @default("")
-  category Category @relation(fields:[categoryId], references: [categoryId])
+  price       Int
+  categoryId  String   @default("")
+  image       String   @default("")
+  category    Category @relation(fields: [categoryId], references: [categoryId])
+
+  @@index([categoryId], map: "Product_categoryId_fkey")
 }
 
-model Category{
-  categoryId String @id @unique @default(uuid())
-  name String
-  products Product[]
+model Category {
+  categoryId String    @id @unique @default(uuid())
+  name       String
+  products   Product[]
+}
+
+enum Roles {
+  ADMIN
+  USER
 }

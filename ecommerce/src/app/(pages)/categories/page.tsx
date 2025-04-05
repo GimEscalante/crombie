@@ -1,32 +1,42 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Category } from "@prisma/client";
-import React from "react";
 
+const CategoryPage = () => {
+  const [categories, setCategories] = useState<string[]>([]);
 
+  interface Category {
+    id: string;
+    name: string;
+  }
+  
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await fetch("/api/categories");
+      const data = await res.json();
+      setCategories(data.categories.map((cat: Category) => cat.name));
+    };
+  
+    fetchCategories();
+  }, []);
+  
 
-export default async function CategoryPage() {
-   
-    const res = await fetch("http://localhost:3000/api/categories");
-     //parse the response to a json object
-    const categoriesFromDB = await res.json()
-    //get the products from the json object
-    const categories:Category[] = categoriesFromDB.categories;
-    
-    return(
-        <div className="m-6 flex flex-col">
-            <h1 className="text-4xl font-bold mb-4 text-blue-600">Categories</h1>
-            {categories.map((category)=>(
-                <div className=""  key={category.categoryId}>
-                    <Link 
-                       
-                        href={`/categories/${category.categoryId}`}
-                        className="my-5 hover:font-semibold"
-                        
-                    >
-                        {category.name}
-                    </Link>
-                </div>
-            ))}
+  return (
+    <div className="flex flex-col">
+      <h1 className="font-extrabold">Categorías disponibles</h1>
+      {categories.map((category) => (
+        <div key={category}>
+          <Link
+            href={`/categories/${category}`}
+            className="my-5 hover:font-semibold"
+          >
+            {category.toUpperCase()}
+          </Link>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
+
+export default CategoryPage;

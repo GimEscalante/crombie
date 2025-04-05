@@ -4,6 +4,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function GET() {
-  const categories = await prisma.category.findMany();
-  return NextResponse.json({ categories }, { status: 200 });
+  try {
+    const categories = await prisma.category.findMany();
+    return NextResponse.json({ categories });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Error al obtener categorías", details: String(error) },
+      { status: 500 }
+    );
+  }
+  
 }
