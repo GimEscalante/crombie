@@ -1,10 +1,10 @@
 "use client"
 
 import { Product } from "@prisma/client"
-import Link from "next/link";
-import Image from "next/image";
+
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Card from "../../../../components/Card";
 
 export default function Products() {
     const router = useRouter();
@@ -49,17 +49,17 @@ export default function Products() {
                 <h1 className="text-4xl font-bold text-center mb-8 text-blue-600">Our Products</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {products?.map((product) => (
-                        <div key={product.productId} className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition-transform">
-                            <div className="p-4">
-                                <Image src={product.image ?? "../public/images/product.jpg"} alt={product.name} height={200} width={200} unoptimized />
-                                <h2 className="text-2xl font-semibold mb-2">{product.name}</h2>
-                                <p className="text-xl font-bold text-blue-600">{product.price}</p>
-                                <Link key={product.productId} href={`/products/${product.productId}`}
-                                    className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                                    Ver más
-                                </Link>
-                            </div>
-                        </div>
+                        <Card
+                        key={product.productId}
+                        title={product.name}
+                        description={product.description}
+                        price={product.price}
+                        image={product.image || "/images/product.jpg"}
+                        linkToProduct={`/products/${product.productId}`}
+                        onAddToCart={() => console.log("Agregar al carrito:", product.name)}
+                        
+                      />
+                      
                     ))}
                 </div>
                 <div className="flex justify-center mt-6 gap-4">

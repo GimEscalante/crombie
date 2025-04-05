@@ -14,12 +14,14 @@ datasource db {
 }
 
 model User {
-  userId   String @id @unique @default(uuid())
+  userId   String @id @default(uuid())  
+  clerkId  String @unique
   name     String
   email    String @unique
-  password String
+  password String?
   role     Roles  @default(USER)
 }
+
 
 model Product {
   productId   String   @id @unique @default(uuid())

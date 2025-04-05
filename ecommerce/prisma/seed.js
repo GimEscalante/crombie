@@ -8,36 +8,43 @@ async function main() {
   const users = await prisma.user.createMany({
     data: [
       {
+        clerkId: "clerk_juan",
         name: "Juan Pérez",
         email: "juan@example.com",
         password: "hashedpassword123",
       },
       {
+        clerkId: "clerk_maria",
         name: "María López",
         email: "maria@example.com",
         password: "securepassword456",
       },
       {
+        clerkId: "clerk_carlos",
         name: "Carlos Fernández",
         email: "carlos@example.com",
         password: "strongpass789",
       },
       {
+        clerkId: "clerk_ana",
         name: "Ana Gómez",
         email: "ana@example.com",
         password: "password123",
       },
       {
+        clerkId: "clerk_pedro",
         name: "Pedro Sánchez",
         email: "pedro@example.com",
         password: "safeandsecure2024",
       },
       {
+        clerkId: "clerk_lucia",
         name: "Lucía Ramírez",
         email: "lucia@example.com",
         password: "mypass456",
       },
       {
+        clerkId: "clerk_diego",
         name: "Diego Torres",
         email: "diego@example.com",
         password: "topsecret789",
