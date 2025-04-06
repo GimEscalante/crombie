@@ -2,24 +2,31 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Heart } from "lucide-react";
+import { AddToCartButton } from "./AddToCartButton";
+
+
 
 interface CardProps {
+  productId: string;
   title: string;
   description: string;
   price: number;
   image: string;
+  userId: string | null;
   onAddToCart?: () => void;
   onToggleFavorite?: () => void;
   isFavorite?: boolean;
   linkToProduct: string;
 }
 
+
 export default function Card({
+  productId,
   title,
   description,
   price,
   image,
-  onAddToCart,
+  userId,
   onToggleFavorite,
   isFavorite,
   linkToProduct,
@@ -60,12 +67,8 @@ export default function Card({
           >
             Ver más
           </Link>
-          <button
-            onClick={onAddToCart}
-            className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
-          >
-            Agregar al carrito
-          </button>
+          <AddToCartButton productId={productId} userId={userId} />
+
         </div>
       </div>
     </div>

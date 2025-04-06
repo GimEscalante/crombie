@@ -1,7 +1,7 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
+import { useUser } from "@clerk/nextjs";
 
 export default function SyncUser() {
   const { user } = useUser();
@@ -9,19 +9,24 @@ export default function SyncUser() {
   useEffect(() => {
     if (!user) return;
 
-    fetch("/api/sync-user", {
-      method: "POST",
-      body: JSON.stringify({
-        clerkId: user.id,
-        name: user.fullName,
-        email: user.primaryEmailAddress?.emailAddress,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const syncUser = async () => {
+      try {
+        await fetch("/api/sync-user", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: user.id,
+            name: user.fullName,
+            email: user.emailAddresses[0]?.emailAddress,
+          }),
+        });
+      } catch (error) {
+        console.error("Error sincronizando usuario:", error);
+      }
+    };
+
+    syncUser();
   }, [user]);
 
-  return null;
+  return null; // Este componente no renderiza nada
 }
-

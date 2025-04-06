@@ -7,7 +7,14 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+// next.config.js
+module.exports = {
+  reactStrictMode: true,
+  experimental: {
+    serverActions: true,
+  },
+};
+
 
 
 export default nextConfig;

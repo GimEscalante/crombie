@@ -1,7 +1,10 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default authMiddleware();
+export default clerkMiddleware();
 
 export const config = {
-  matcher: ["/profile", "/dashboard", "/api/(.*)"], // rutas protegidas
-};
+    matcher: [
+      "/((?!api|_next/static|_next/image|favicon.ico|auth/sign-in|auth/sign-up).*)",
+    ],
+  };
+  

@@ -1,12 +1,18 @@
 "use client"
 
 import { Product } from "@prisma/client"
-
+import { useUser } from "@clerk/nextjs";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Card from "../../../../components/Card";
+import SyncUser from "../../../../components/SyncUser";
+
 
 export default function Products() {
+
+    const { user } = useUser();
+    const userId = typeof user?.publicMetadata?.userId === "string" ? user.publicMetadata.userId : null;
+
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -35,7 +41,9 @@ export default function Products() {
     
 
     return (
+        
         <main className="min-h-screen bg-gray-100 text-gray-800 p-8">
+            <SyncUser />
             <section className="max-w-6xl mx-auto">
                 <div className="flex justify-center mb-6">
                     <input
@@ -51,13 +59,14 @@ export default function Products() {
                     {products?.map((product) => (
                         <Card
                         key={product.productId}
+                        productId={product.productId}
                         title={product.name}
                         description={product.description}
                         price={product.price}
                         image={product.image || "/images/product.jpg"}
                         linkToProduct={`/products/${product.productId}`}
                         onAddToCart={() => console.log("Agregar al carrito:", product.name)}
-                        
+                        userId={userId}
                       />
                       
                     ))}

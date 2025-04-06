@@ -1,29 +1,37 @@
-// app/api/sync-user/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"; // o donde tengas tu instancia de Prisma
+
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { clerkId, name, email } = body;
+  try {
+    const { id, name, email } = await req.json();
 
-  if (!clerkId || !email) {
-    return NextResponse.json({ error: "Faltan datos" }, { status: 400 });
-  }
+    // Verificamos si el usuario ya existe por clerkId
+    const existingUser = await prisma.user.findUnique({
+      where: { clerkId: id },
+    });
 
-  // Verificar si el usuario ya existe
-  const existingUser = await prisma.user.findUnique({
-    where: { clerkId },
-  });
+    if (existingUser) {
+      return NextResponse.json({ message: "Usuario ya existe" });
+    }
 
-  if (!existingUser) {
-    await prisma.user.create({
+    // Creamos el nuevo usuario
+    const newUser = await prisma.user.create({
       data: {
-        clerkId,
+        clerkId: id,
         name,
         email,
-      },
+        password:"",
+        
+        
+      }
+      
     });
-  }
 
-  return NextResponse.json({ message: "Usuario sincronizado" });
+    return NextResponse.json({ message: "Usuario creado", user: newUser });
+  } catch (error) {
+    console.error("Error al sincronizar usuario:", error);
+    return NextResponse.json({ error: "Error al sincronizar usuario" }, { status: 500 });
+  }
 }
+

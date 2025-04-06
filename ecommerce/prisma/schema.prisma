@@ -14,14 +14,31 @@ datasource db {
 }
 
 model User {
-  userId   String @id @default(uuid())  
-  clerkId  String @unique
+  userId   String    @id @default(uuid())
+  clerkId  String    @unique
   name     String
-  email    String @unique
+  email    String    @unique
   password String?
-  role     Roles  @default(USER)
+  role     Roles     @default(USER)
+  cart     Cart?     
 }
 
+model Cart {
+  cartId  String    @id @default(cuid())
+  userId  String    @unique
+  user    User      @relation(fields: [userId], references: [userId]) // solo acá usamos @relation
+  items   CartItem[]
+}
+
+model CartItem {
+  cartItemId String  @id @default(cuid())
+  cartId     String
+  productId  String
+  quantity   Int     @default(1)
+
+  cart       Cart    @relation(fields: [cartId], references: [cartId])
+  product    Product @relation(fields: [productId], references: [productId])
+}
 
 model Product {
   productId   String   @id @unique @default(uuid())
@@ -31,6 +48,7 @@ model Product {
   categoryId  String   @default("")
   image       String   @default("")
   category    Category @relation(fields: [categoryId], references: [categoryId])
+  cartItems CartItem[]
 
   @@index([categoryId], map: "Product_categoryId_fkey")
 }
