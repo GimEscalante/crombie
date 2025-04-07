@@ -66,8 +66,9 @@ export default function Products() {
                         image={product.image || "/images/product.jpg"}
                         linkToProduct={`/products/${product.productId}`}
                         onAddToCart={() => console.log("Agregar al carrito:", product.name)}
-                        userId={userId}
+                        userId={userId ?? null}
                       />
+                      
                       
                     ))}
                 </div>

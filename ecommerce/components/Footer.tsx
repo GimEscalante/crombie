@@ -3,15 +3,14 @@ export default function Footer() {
         <footer className="bg-gray-50 py-10 mt-auto">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-center space-y-6">
-            {/* Enlaces de navegación */}
+           
             <div className="flex justify-center space-x-6">
               <a href="#" className="text-gray-800 hover:text-gray-600">About us</a>
               <a href="#" className="text-gray-800 hover:text-gray-600">Contact</a>
               <a href="#" className="text-gray-800 hover:text-gray-600">Jobs</a>
               <a href="#" className="text-gray-800 hover:text-gray-600">Press kit</a>
             </div>
-            
-            {/* Iconos de redes sociales */}
+        
             <div className="flex justify-center space-x-4">
               <a href="#" className="text-gray-800 hover:text-gray-600">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current">
@@ -30,7 +29,6 @@ export default function Footer() {
               </a>
             </div>
             
-            {/* Copyright */}
             <div className="text-gray-800">
               <p>Copyright © {new Date().getFullYear()} - All right reserved by ACME Industries Ltd</p>
             </div>

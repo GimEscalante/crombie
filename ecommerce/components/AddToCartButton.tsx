@@ -15,7 +15,7 @@ export function AddToCartButton({ productId, userId }: Props) {
   const handleAddToCart = async () => {
     if (!userId) {
       alert("Tenés que iniciar sesión para agregar productos al carrito.");
-      router.push("/sign-in"); // o "/login" dependiendo de tu ruta de login
+      router.push("/sign-in");
       return;
     }
 
@@ -36,7 +36,6 @@ export function AddToCartButton({ productId, userId }: Props) {
       }
 
       alert("Producto agregado al carrito!");
-      // Podés también redirigir o actualizar algo
     } catch (error) {
       console.error(error);
       alert("No se pudo agregar al carrito.");
@@ -44,6 +43,17 @@ export function AddToCartButton({ productId, userId }: Props) {
       setLoading(false);
     }
   };
+
+  if (!userId) {
+    return (
+      <button
+        onClick={() => router.push("/sign-in")}
+        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+      >
+        Iniciá sesión para comprar
+      </button>
+    );
+  }
 
   return (
     <button

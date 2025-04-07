@@ -8,14 +8,12 @@ export default function NavBar() {
 
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50">
-      {/* Logo a la izquierda */}
       <div className="flex-1">
         <Link href="/" className="btn btn-ghost text-xl">
           daisyUI
         </Link>
       </div>
 
-      {/* Enlaces centrados */}
       <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
         <div className="flex space-x-6">
           <Link
@@ -39,7 +37,7 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* Menú móvil */}
+      
       <div className="dropdown md:hidden">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
           <svg
@@ -79,11 +77,11 @@ export default function NavBar() {
         </ul>
       </div>
 
-      {/* Iconos a la derecha */}
+      
       <div className="flex-none mr-6">
         {isSignedIn ? (
           <div className="flex items-center gap-3">
-            {/* Carrito solo si está logueado */}
+           
             <div className="dropdown dropdown-end mr-5">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                 <div className="indicator">
@@ -118,7 +116,6 @@ export default function NavBar() {
               </div>
             </div>
 
-            {/* Nombre y botón de usuario */}
             <span className="text-sm">{user?.fullName}</span>
             <UserButton />
             </div>

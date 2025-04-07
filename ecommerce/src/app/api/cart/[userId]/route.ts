@@ -1,4 +1,3 @@
-// /app/api/cart/[userId]/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import type { Cart, CartItem } from "@prisma/client";
@@ -12,7 +11,6 @@ export async function POST(req: Request, { params }: { params: { userId: string 
     include: { items: true },
   });
 
-  // Crear el carrito si no existe
   if (!cart) {
     cart = await prisma.cart.create({
       data: {
@@ -28,7 +26,6 @@ export async function POST(req: Request, { params }: { params: { userId: string 
       },
       include: { items: true },
     });
-    
     
   } else {
     const existingItem = cart.items.find((item) => item.productId === productId);
@@ -50,7 +47,7 @@ export async function POST(req: Request, { params }: { params: { userId: string 
 
   return NextResponse.json({ message: "Producto agregado al carrito" });
 }
-// /app/api/cart/[userId]/route.ts
+
 export async function GET(req: Request, { params }: { params: { userId: string } }) {
   const cart = await prisma.cart.findUnique({
     where: { userId: params.userId },
@@ -65,3 +62,4 @@ export async function GET(req: Request, { params }: { params: { userId: string }
 
   return NextResponse.json(cart || {});
 }
+

@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 
 export default function SyncUser() {
-  const { user } = useUser();
+  const { user, isSignedIn } = useUser();
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isSignedIn) return;
 
     const syncUser = async () => {
       try {
-        await fetch("/api/sync-user", {
+        const res = await fetch("/api/sync-user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -20,13 +20,19 @@ export default function SyncUser() {
             email: user.emailAddresses[0]?.emailAddress,
           }),
         });
+
+        const data = await res.json();
+
+        if (data.message === "Usuario creado y sincronizado") {
+          window.location.reload(); 
+        }
       } catch (error) {
         console.error("Error sincronizando usuario:", error);
       }
     };
 
     syncUser();
-  }, [user]);
+  }, [user, isSignedIn]);
 
-  return null; // Este componente no renderiza nada
+  return null;
 }

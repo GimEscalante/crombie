@@ -1,6 +1,8 @@
 import { baseUrl } from "@/lib/definitions";
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import { currentUser } from "@clerk/nextjs/server";
+import Card from "../../../../../components/Card";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 interface Product {
@@ -16,53 +18,59 @@ interface Props {
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const category = params.category;
+  const category = params.category.toLowerCase();
 
-  const res = await fetch(`${baseUrl}/api/products/by-category/${category}`, {
+  const res = await fetch(`${baseUrl}/api/products/category/${category}`, {
     cache: "no-store",
   });
 
   if (!res.ok) return notFound();
 
   const products: Product[] = await res.json();
+  const user = await currentUser(); 
+  const userId = user?.publicMetadata?.userId as string | null;
 
   return (
-    <main className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Productos en {category}</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.length > 0 ? (
-          products.map((product) => (
-            <div
-              key={product.productId}
-              className="bg-white shadow-md p-4 rounded-lg flex flex-col"
-            >
-              <div className="relative w-full h-48 mb-4">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded"
-                  priority
+    <main className="min-h-screen flex flex-col">
+      <section className="flex-grow px-8 py-10 max-w-7xl mx-auto">
+        
+        <Link
+          href="/categories"
+          className="mb-6 inline-flex items-center text-sm text-blue-600 hover:underline"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Volver a categorías
+        </Link>
+
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Productos en {category}
+        </h1>
+
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center max-w-7xl mx-auto">
+            {products.length > 0 ? (
+              products.map((product) => (
+                <Card
+                  key={product.productId}
+                  productId={product.productId}
+                  title={product.name}
+                  description={product.description}
+                  price={product.price}
+                  image={product.image || "/images/product.jpg"}
+                  userId={userId}
+                  isFavorite={false}
+                  linkToProduct={`/products/${product.productId}`}
                 />
-              </div>
-
-              <h2 className="text-xl font-semibold">{product.name}</h2>
-              <p className="text-gray-600">{product.description}</p>
-              <p className="text-blue-600 font-bold mt-2">${product.price}</p>
-
-              <Link
-                href={`/products/${product.productId}`}
-                className=" inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition mt-4 text-center"
-              >
-                Ver más
-              </Link>
-            </div>
-          ))
-        ) : (
-          <p>No hay productos en esta categoría.</p>
-        )}
-      </div>
+              ))
+            ) : (
+              <p className="text-center w-full">
+                No hay productos en esta categoría.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
     </main>
+
   );
 }

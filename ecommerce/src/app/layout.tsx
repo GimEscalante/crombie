@@ -33,14 +33,23 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ClerkProvider>
-        <NavBar></NavBar>
-        <Suspense>
-        <SyncUser />
-        {children}
-        <Footer></Footer>
-        </Suspense>
+          <div className="flex flex-col min-h-screen">
+            <NavBar />
+
+            <Suspense>
+              <SyncUser />
+
+              
+              <main className="flex-1">
+                {children}
+              </main>
+
+              <Footer />
+            </Suspense>
+          </div>
         </ClerkProvider>
       </body>
     </html>
+
   );
 }

@@ -11,12 +11,12 @@ export default function ProfilePage() {
   const [hasSynced, setHasSynced] = useState(false);
 
   useEffect(() => {
-    // Redirige si el usuario no está autenticado y ya cargó el estado
+    
     if (!isSignedIn && isLoaded) {
       router.push("/sign-in");
     }
 
-    // Sincroniza con tu base de datos
+    
     if (user && !hasSynced) {
       fetch("/api/sync-user", {
         method: "POST",

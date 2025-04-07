@@ -58,8 +58,6 @@ export default function Card({
         <h2 className="text-lg font-bold mb-1">{title}</h2>
         <p className="text-gray-600 text-sm mb-2">{description}</p>
         <p className="text-blue-600 font-bold text-lg">${price}</p>
-
-        {/* NUEVA sección de botones */}
         <div className="flex justify-between gap-2 mt-2">
           <Link
             href={linkToProduct}
