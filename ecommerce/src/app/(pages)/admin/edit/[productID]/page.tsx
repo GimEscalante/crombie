@@ -7,11 +7,11 @@ import { Category, Product } from "@prisma/client";
 export default function EditProductPage() {
   const params = useParams();
   const productId = params.productID as string;
+
   const router = useRouter();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -19,40 +19,53 @@ export default function EditProductPage() {
     categoryId: "",
   });
 
+  console.log("Params:", params);
+  console.log("Product ID:", productId);
+
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Product ID:", productId);
-  
-      const resProduct = await fetch(`/api/products/${productId}`);
-      console.log("Status producto:", resProduct.status);
-      const dataProduct = await resProduct.json();
-      console.log("Producto:", dataProduct);
-  
-      if (!resProduct.ok) {
-        console.error("Error al obtener producto");
-        return;
-      }
-  
-      setProduct(dataProduct);
-      setForm({
-        name: dataProduct.name,
-        description: dataProduct.description,
-        price: dataProduct.price,
-        categoryId: dataProduct.categoryId,
-      });
-  
-      const resCategories = await fetch("/api/categories");
-      const dataCategories = await resCategories.json();
-      setCategories(dataCategories);
-    };
-  
-    if (productId) fetchData();
-  }, [productId]);
-  
+      try {
+        console.log("PARAMS:", params);
+        console.log("Product ID:", productId);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const resProduct = await fetch(`/api/products/${productId}`);
+        console.log("Status producto:", resProduct.status);
+
+        if (!resProduct.ok) {
+          console.error("Error al obtener producto");
+          return;
+        }
+
+        const dataProduct = await resProduct.json();
+        console.log("Producto:", dataProduct);
+
+        setProduct(dataProduct);
+        setForm({
+          name: dataProduct.name,
+          description: dataProduct.description,
+          price: dataProduct.price,
+          categoryId: dataProduct.categoryId,
+        });
+
+        const resCategories = await fetch("/api/categories");
+        const dataCategories = await resCategories.json();
+        setCategories(dataCategories);
+      } catch (error) {
+        console.error("Error en fetchData:", error);
+      }
+    };
+
+    if (productId) fetchData();
+  }, [productId, params]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: name === "price" ? parseInt(value) : value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "price" ? parseInt(value) : value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -69,7 +82,13 @@ export default function EditProductPage() {
     router.push("/admin");
   };
 
-  if (!product) return <p className="text-center mt-10">Cargando producto...</p>;
+  if (!product)
+    return (
+      <div className="text-center mt-10">
+        <p>Cargando producto...</p>
+        <p className="text-sm text-gray-500">ID: {productId}</p>
+      </div>
+    );
 
   return (
     <main className="max-w-3xl mx-auto p-8">

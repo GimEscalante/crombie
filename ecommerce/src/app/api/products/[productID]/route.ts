@@ -4,11 +4,11 @@ import { prisma } from "@/lib/prisma";
 // GET: Obtener un producto por ID
 export async function GET(
   request: Request,
-  { params }: { params: { productId: string } }
+  { params }: { params: { productID: string } }
 ) {
   try {
     const product = await prisma.product.findUnique({
-      where: { productId: params.productId },
+      where: { productId: params.productID },
       include: { category: true },
     });
 
