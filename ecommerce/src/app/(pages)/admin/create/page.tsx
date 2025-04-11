@@ -19,7 +19,6 @@ export default function CreateProductPage() {
   const [image, setImage] = useState<File | null>(null)
   const [categories, setCategories] = useState<Category[]>([])
 
-  // Cargar las categorías desde el backend
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await fetch("/api/categories")

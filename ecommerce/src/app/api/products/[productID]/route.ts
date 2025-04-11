@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET: Obtener un producto por ID
 export async function GET(
   request: Request,
   { params }: { params: { productID: string } }
@@ -22,7 +21,6 @@ export async function GET(
   }
 }
 
-// PUT: Actualizar un producto por ID
 export async function PUT(
   req: Request,
   { params }: { params: { productID: string } }
@@ -45,7 +43,6 @@ export async function PUT(
   }
 }
 
-// DELETE: Eliminar un producto por ID
 export async function DELETE(
   req: Request,
   { params }: { params: { productID: string } }
