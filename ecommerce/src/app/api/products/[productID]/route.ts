@@ -1,59 +1,63 @@
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
 
-interface Params {
-  productID: string;
-}
-
+// GET: Obtener un producto por ID
 export async function GET(
-  req: NextRequest,
-  context: { params: Params } 
+  request: Request,
+  { params }: { params: { productId: string } }
 ) {
   try {
-    const { productID } = context.params; 
     const product = await prisma.product.findUnique({
-      where: { productId: productID },
+      where: { productId: params.productId },
       include: { category: true },
     });
 
     if (!product) {
-      return NextResponse.json(
-        { error: "Producto no encontrado" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Producto no encontrado" }, { status: 404 });
     }
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error("Error en GET /api/products/[productID]:", error);
+    return NextResponse.json({ message: "Error al obtener el producto", error }, { status: 500 });
+  }
+}
+
+// PUT: Actualizar un producto por ID
+export async function PUT(
+  req: Request,
+  { params }: { params: { productID: string } }
+) {
+  try {
+    const { name, description, price, categoryId } = await req.json();
+
+    const updatedProduct = await prisma.product.update({
+      where: { productId: params.productID },
+      data: { name, description, price, categoryId },
+    });
+
+    return NextResponse.json(updatedProduct);
+  } catch (error) {
+    console.error("Error al actualizar producto:", error);
     return NextResponse.json(
-      { error: "Error al obtener producto" },
+      { message: "Error al actualizar el producto" },
       { status: 500 }
     );
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  context: { params: Params } 
-) {
-  const { productID } = context.params;
-  const body = await req.json();
-  const productUpdated = await prisma.product.update({
-    where: { productId: productID },
-    data: body,
-  });
-  return NextResponse.json({ productUpdated }, { status: 200 });
-}
-
+// DELETE: Eliminar un producto por ID
 export async function DELETE(
-  req: NextRequest,
-  context: { params: Params } 
+  req: Request,
+  { params }: { params: { productID: string } }
 ) {
-  const { productID } = context.params;
-  const productDeleted = await prisma.product.delete({
-    where: { productId: productID },
-  });
+  try {
+    await prisma.product.delete({
+      where: { productId: params.productID },
+    });
 
-  return NextResponse.json({ productDeleted }, { status: 200 });
+    return NextResponse.json({ message: "Producto eliminado" });
+  } catch (error) {
+    console.error("Error al eliminar producto:", error);
+    return NextResponse.json({ error: "Error al eliminar" }, { status: 500 });
+  }
 }

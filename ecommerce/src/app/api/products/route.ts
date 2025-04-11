@@ -52,7 +52,7 @@ export async function POST(req: Request) {
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
   const price = parseInt(formData.get("price") as string, 10);
-  const categoryId = formData.get("category") as string;
+  const categoryId = formData.get("categoryId") as string;
   const image = formData.get("image") as File | null;
 
   if (!name || !description || !price || !image) {
@@ -68,11 +68,23 @@ export async function POST(req: Request) {
   const buffer = await image.arrayBuffer();
   await file.save(Buffer.from(buffer), {
     metadata: { contentType: image.type },
-    public: true,
   });
+
 
   const imageUrl = `https://storage.googleapis.com/${BUCKET_NAME}/${fileName}`;
 
+  console.log("Creando producto con categoría ID:", categoryId);
+
+  const categoryExists = await prisma.category.findUnique({
+    where: { categoryId },
+  });
+  
+  if (!categoryExists) {
+    return NextResponse.json(
+      { message: "La categoría no existe en la base de datos." },
+      { status: 400 }
+    );
+  }
   
   const product = await prisma.product.create({
     data: { name, description, price, categoryId, image: imageUrl },

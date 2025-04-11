@@ -11,7 +11,10 @@ import SyncUser from "../../../../components/SyncUser";
 export default function Products() {
 
     const { user } = useUser();
-    const userId = typeof user?.publicMetadata?.userId === "string" ? user.publicMetadata.userId : null;
+    const userId = typeof user?.publicMetadata?.userId === "string" && user.publicMetadata.userId.length > 0
+    ? user.publicMetadata.userId
+    : null;
+
 
     const router = useRouter();
     const searchParams = useSearchParams();
