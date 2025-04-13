@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { handleError, NotFoundError } from "@/lib/handler";
 
 export async function GET(
   request: Request,
@@ -12,12 +13,13 @@ export async function GET(
     });
 
     if (!product) {
-      return NextResponse.json({ message: "Producto no encontrado" }, { status: 404 });
+      throw new NotFoundError("Producto no encontrado");
     }
 
     return NextResponse.json(product);
   } catch (error) {
-    return NextResponse.json({ message: "Error al obtener el producto", error }, { status: 500 });
+    const { message, statusCode } = handleError(error);
+    return NextResponse.json({ message }, { status: statusCode });
   }
 }
 
@@ -35,11 +37,8 @@ export async function PUT(
 
     return NextResponse.json(updatedProduct);
   } catch (error) {
-    console.error("Error al actualizar producto:", error);
-    return NextResponse.json(
-      { message: "Error al actualizar el producto" },
-      { status: 500 }
-    );
+    const { message, statusCode } = handleError(error);
+    return NextResponse.json({ message }, { status: statusCode });
   }
 }
 
@@ -54,7 +53,7 @@ export async function DELETE(
 
     return NextResponse.json({ message: "Producto eliminado" });
   } catch (error) {
-    console.error("Error al eliminar producto:", error);
-    return NextResponse.json({ error: "Error al eliminar" }, { status: 500 });
+    const { message, statusCode } = handleError(error);
+    return NextResponse.json({ message }, { status: statusCode });
   }
 }

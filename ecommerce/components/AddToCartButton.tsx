@@ -1,7 +1,6 @@
 "use client";
-
+//A futuro: Boton para que se puedan agregar productos a un carrito, si es que hay un usuario logeado 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 type Props = {
   productId: string;
@@ -9,16 +8,10 @@ type Props = {
 };
 
 export function AddToCartButton({ productId, userId }: Props) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleAddToCart = async () => {
-    if (!userId) {
-      alert("Tenés que iniciar sesión para agregar productos al carrito.");
-      router.push("/sign-in");
-      return;
-    }
-
+    
     setLoading(true);
 
     try {
@@ -43,17 +36,6 @@ export function AddToCartButton({ productId, userId }: Props) {
       setLoading(false);
     }
   };
-
-  if (!userId) {
-    return (
-      <button
-        onClick={() => router.push("/sign-in")}
-        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
-      >
-        Iniciá sesión para comprar
-      </button>
-    );
-  }
 
   return (
     <button

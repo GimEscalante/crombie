@@ -1,16 +1,14 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+import { handleError, NotFoundError } from "@/lib/handler";
 
 export async function GET(
   request: Request,
   { params }: { params: { category: string } }
 ) {
-  const categoryName = decodeURIComponent(params.category).toLowerCase();
-
   try {
-    
+    const categoryName = decodeURIComponent(params.category).toLowerCase();
+
     const allCategories = await prisma.category.findMany();
 
     const matchedCategory = allCategories.find(
@@ -18,10 +16,7 @@ export async function GET(
     );
 
     if (!matchedCategory) {
-      return NextResponse.json(
-        { error: "Categoría no encontrada" },
-        { status: 404 }
-      );
+      throw new NotFoundError("Categoría no encontrada");
     }
 
     const products = await prisma.product.findMany({
@@ -32,9 +27,8 @@ export async function GET(
 
     return NextResponse.json(products);
   } catch (error) {
-    return NextResponse.json(
-      { error: "Error al obtener productos", details: String(error) },
-      { status: 500 }
-    );
+    const { message, statusCode } = handleError(error);
+    return NextResponse.json({ message }, { status: statusCode });
   }
 }
+

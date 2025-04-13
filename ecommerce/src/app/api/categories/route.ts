@@ -1,18 +1,13 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+import { handleError } from "@/lib/handler";
 
 export async function GET() {
   try {
     const categories = await prisma.category.findMany();
-    return NextResponse.json(categories); 
-
+    return NextResponse.json(categories);
   } catch (error) {
-    return NextResponse.json(
-      { error: "Error al obtener categorías", details: String(error) },
-      { status: 500 }
-    );
+    const { message, statusCode } = handleError(error);
+    return NextResponse.json({ message }, { status: statusCode });
   }
-  
 }

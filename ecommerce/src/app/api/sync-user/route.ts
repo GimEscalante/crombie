@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { clerkClient } from "@clerk/clerk-sdk-node"; 
+import { clerkClient } from "@clerk/clerk-sdk-node";
+import { handleError } from "@/lib/handler";
 
 export async function POST(req: Request) {
   try {
-    const { id, name, email } = await req.json(); 
+    const { id, name, email } = await req.json();
 
     const existingUser = await prisma.user.findUnique({
       where: { clerkId: id },
@@ -14,27 +15,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Usuario ya existe" });
     }
 
-    
     const newUser = await prisma.user.create({
       data: {
         clerkId: id,
         name,
         email,
-        password: "", 
+        password: "",
       },
     });
 
-    
     await clerkClient.users.updateUserMetadata(id, {
       publicMetadata: {
         userId: newUser.userId,
       },
     });
 
-    return NextResponse.json({ message: "Usuario creado y sincronizado", user: newUser });
+    return NextResponse.json({
+      message: "Usuario creado y sincronizado",
+      user: newUser,
+    });
   } catch (error) {
-    console.error("Error al sincronizar usuario:", error);
-    return NextResponse.json({ error: "Error al sincronizar usuario" }, { status: 500 });
+    const { message, statusCode } = handleError(error);
+    return NextResponse.json({ message }, { status: statusCode });
   }
 }
-

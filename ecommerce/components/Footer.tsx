@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
     return( 
         <footer className="bg-gray-50 py-10 mt-auto">
@@ -5,10 +7,24 @@ export default function Footer() {
           <div className="flex flex-col items-center justify-center space-y-6">
            
             <div className="flex justify-center space-x-6">
-              <a href="#" className="text-gray-800 hover:text-gray-600">About us</a>
-              <a href="#" className="text-gray-800 hover:text-gray-600">Contact</a>
-              <a href="#" className="text-gray-800 hover:text-gray-600">Jobs</a>
-              <a href="#" className="text-gray-800 hover:text-gray-600">Press kit</a>
+            <Link
+              href="/about"
+              className="text-gray-800 hover:text-gray-600"
+            >
+              About us
+            </Link>
+            <Link
+              href="/categories"
+              className="text-gray-800 hover:text-gray-600"
+            >
+              Categories
+            </Link>
+            <Link
+              href="/products"
+              className="text-gray-800 hover:text-gray-600"
+            >
+              Products
+            </Link>
             </div>
         
             <div className="flex justify-center space-x-4">
