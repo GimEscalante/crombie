@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,53 +7,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  userId   String    @id @default(uuid())
-  clerkId  String    @unique
-  name     String
-  email    String    @unique
-  password String?
-  role     Roles     @default(USER)
-  cart     Cart?     
+model cart {
+  cartId   String     @id
+  userId   String     @unique(map: "Cart_userId_key")
+  user     user       @relation(fields: [userId], references: [userId], map: "Cart_userId_fkey")
+  cartitem cartitem[]
 }
 
-model Cart {
-  cartId  String    @id @default(cuid())
-  userId  String    @unique
-  user    User      @relation(fields: [userId], references: [userId]) // solo acá usamos @relation
-  items   CartItem[]
-}
-
-model CartItem {
-  cartItemId String  @id @default(cuid())
+model cartitem {
+  cartItemId String  @id
   cartId     String
   productId  String
   quantity   Int     @default(1)
+  cart       cart    @relation(fields: [cartId], references: [cartId], map: "CartItem_cartId_fkey")
+  product    product @relation(fields: [productId], references: [productId], map: "CartItem_productId_fkey")
 
-  cart       Cart    @relation(fields: [cartId], references: [cartId])
-  product    Product @relation(fields: [productId], references: [productId])
+  @@index([cartId], map: "CartItem_cartId_fkey")
+  @@index([productId], map: "CartItem_productId_fkey")
 }
 
-model Product {
-  productId   String   @id @unique @default(uuid())
+model category {
+  categoryId String    @id @unique(map: "Category_categoryId_key")
+  name       String
+  product    product[]
+}
+
+model product {
+  productId   String     @id @unique(map: "Product_productId_key")
   name        String
   description String
   price       Int
-  categoryId  String   @default("")
-  image       String   @default("")
-  category    Category @relation(fields: [categoryId], references: [categoryId])
-  cartItems CartItem[]
+  categoryId  String     @default("")
+  image       String     @default("")
+  cartitem    cartitem[]
+  category    category   @relation(fields: [categoryId], references: [categoryId], map: "Product_categoryId_fkey")
 
   @@index([categoryId], map: "Product_categoryId_fkey")
 }
 
-model Category {
-  categoryId String    @id @unique @default(uuid())
-  name       String
-  products   Product[]
+model user {
+  userId   String    @id
+  clerkId  String    @unique(map: "User_clerkId_key")
+  name     String
+  email    String    @unique(map: "User_email_key")
+  password String?
+  role     user_role @default(USER)
+  cart     cart?
 }
 
-enum Roles {
+enum user_role {
   ADMIN
   USER
 }
