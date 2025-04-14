@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { handleError, NotFoundError } from "@/lib/handler";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { category: string } }
-) {
+export async function GET(request: NextRequest) {
   try {
-    const categoryName = decodeURIComponent(params.category).toLowerCase();
+    const category = request.nextUrl.pathname.split("/").pop(); 
+    if (!category) throw new NotFoundError("Categoría no especificada");
+
+    const categoryName = decodeURIComponent(category).toLowerCase();
 
     const allCategories = await prisma.category.findMany();
 
@@ -31,4 +31,3 @@ export async function GET(
     return NextResponse.json({ message }, { status: statusCode });
   }
 }
-

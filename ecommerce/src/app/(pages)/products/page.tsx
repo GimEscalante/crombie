@@ -1,6 +1,7 @@
 "use client";
 
-import { Product } from "@prisma/client";
+import React from "react";
+import {Product} from "@prisma/client";
 import { useUser } from "@clerk/nextjs";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";

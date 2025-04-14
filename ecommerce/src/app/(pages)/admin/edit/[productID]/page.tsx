@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Category, Product } from "@prisma/client";
+import { category, Product } from "@prisma/client";
 
 export default function EditProductPage() {
   const params = useParams();
@@ -11,7 +11,7 @@ export default function EditProductPage() {
   const router = useRouter();
 
   const [product, setProduct] = useState<Product | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<category[]>([]);
   const [form, setForm] = useState({
     name: "",
     description: "",

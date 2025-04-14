@@ -20,33 +20,33 @@ model cartitem {
   productId  String
   quantity   Int     @default(1)
   cart       cart    @relation(fields: [cartId], references: [cartId], map: "CartItem_cartId_fkey")
-  product    product @relation(fields: [productId], references: [productId], map: "CartItem_productId_fkey")
+  product    Product @relation(fields: [productId], references: [productId], map: "CartItem_productId_fkey")
 
   @@index([cartId], map: "CartItem_cartId_fkey")
   @@index([productId], map: "CartItem_productId_fkey")
 }
 
 model category {
-  categoryId String    @id @unique(map: "Category_categoryId_key")
+  categoryId String    @id @unique @default(uuid())
   name       String
-  product    product[]
+  product    Product[]
 }
 
-model product {
-  productId   String     @id @unique(map: "Product_productId_key")
+model Product {
+  productId   String     @id @unique @default(uuid())
   name        String
   description String
   price       Int
   categoryId  String     @default("")
   image       String     @default("")
   cartitem    cartitem[]
-  category    category   @relation(fields: [categoryId], references: [categoryId], map: "Product_categoryId_fkey")
+  category    category   @relation(fields: [categoryId], references: [categoryId])
 
-  @@index([categoryId], map: "Product_categoryId_fkey")
+  @@index([categoryId],map:"Product_categoryId_fkey")
 }
 
 model user {
-  userId   String    @id
+  userId   String    @id @default(uuid())
   clerkId  String    @unique(map: "User_clerkId_key")
   name     String
   email    String    @unique(map: "User_email_key")

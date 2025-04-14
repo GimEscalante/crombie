@@ -1,14 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { handleError, NotFoundError } from "@/lib/handler";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { productID: string } }
-) {
+export async function GET(request: NextRequest) {
   try {
+    const productID = request.nextUrl.pathname.split("/").pop()!;
+
     const product = await prisma.product.findUnique({
-      where: { productId: params.productID },
+      where: { productId: productID },
       include: { category: true },
     });
 
@@ -23,15 +22,13 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: Request,
-  { params }: { params: { productID: string } }
-) {
+export async function PUT(request: NextRequest) {
   try {
-    const { name, description, price, categoryId } = await req.json();
+    const productID = request.nextUrl.pathname.split("/").pop()!;
+    const { name, description, price, categoryId } = await request.json();
 
     const updatedProduct = await prisma.product.update({
-      where: { productId: params.productID },
+      where: { productId: productID },
       data: { name, description, price, categoryId },
     });
 
@@ -42,13 +39,12 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { productID: string } }
-) {
+export async function DELETE(request: NextRequest) {
   try {
+    const productID = request.nextUrl.pathname.split("/").pop()!;
+
     await prisma.product.delete({
-      where: { productId: params.productID },
+      where: { productId: productID },
     });
 
     return NextResponse.json({ message: "Producto eliminado" });

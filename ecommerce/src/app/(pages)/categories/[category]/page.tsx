@@ -13,14 +13,13 @@ interface Product {
   image: string;
 }
 
-interface Props {
-  params: { category: string };
-}
+type CategoryParams = Promise<{ category: string }>
 
-export default async function CategoryPage({ params }: Props) {
-  const category = params.category.toLowerCase();
+export default async function CategoryPage({ params }: { params: CategoryParams }) {
+  const { category } = await params;
+  const categoryLowerCase = category.toLowerCase();
 
-  const res = await fetch(`${baseUrl}/api/products/category/${category}`, {
+  const res = await fetch(`${baseUrl}/api/products/category/${categoryLowerCase}`, {
     cache: "no-store",
   });
 
