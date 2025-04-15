@@ -3,8 +3,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Insertar usuarios
   
+  // Borrar datos anteriores
+  await prisma.cartitem.deleteMany();
+  await prisma.cart.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
+
+  // Insertar usuarios
   const users = await prisma.user.createMany({
     data: [
       {
@@ -50,94 +56,177 @@ async function main() {
         password: "topsecret789",
       },
     ],
+    skipDuplicates: true,
   });
 
-  // Crear Categorías
   const categories = await prisma.category.createMany({
     data: [
-      { name: "Tecnología" },
-      { name: "Moda" },
-      { name: "Hogar" },
-      { name: "Deportes" },
+      {  name: "Comida Japonesa" },
+      {  name: "Comida Coreana" },
+      {  name: "Comida China" },
+      {  name: "Comida Tailandesa" },
     ],
   });
 
-  // Obtener las categorías creadas
-  const catTecnologia = await prisma.category.findFirst({
-    where: { name: "Tecnología" },
-  });
-  const catModa = await prisma.category.findFirst({ where: { name: "Moda" } });
-  const catHogar = await prisma.category.findFirst({
-    where: { name: "Hogar" },
-  });
-  const catDeportes = await prisma.category.findFirst({
-    where: { name: "Deportes" },
-  });
+  // Obtener las categorías por nombre
+  const [japonesa, coreana, china, tailandesa] = await Promise.all([
+    prisma.category.findFirst({ where: { name: "Comida Japonesa" } }),
+    prisma.category.findFirst({ where: { name: "Comida Coreana" } }),
+    prisma.category.findFirst({ where: { name: "Comida China" } }),
+    prisma.category.findFirst({ where: { name: "Comida Tailandesa" } }),
+  ]);
 
-  if (!catTecnologia || !catModa || !catHogar || !catDeportes) {
+  if (!japonesa || !coreana || !china || !tailandesa) {
     throw new Error("No se pudieron encontrar las categorías.");
   }
+
+ 
 
   // Crear Productos Asociados a las Categorías
   const products = await prisma.product.createMany({
     data: [
-      // Tecnología
-      {
-        name: "Laptop Gamer",
-        description: "Potente laptop con RTX 3080",
-        price: 2500,
-        categoryId: catTecnologia.categoryId,
-      },
-      {
-        name: "Auriculares Bluetooth",
-        description: "Sonido envolvente y cancelación de ruido",
-        price: 120,
-        categoryId: catTecnologia.categoryId,
-      },
+      // --- Japón
+  {
+    name: "Sushi Variado",
+    description: "Selección de sushi con salmón, atún y palta.",
+    price: 2500,
+    categoryId: japonesa.categoryId,
+    image: "/images/sushi.jpg",
+  },
+  {
+    name: "Ramen de Cerdo",
+    description: "Ramen con caldo miso, cerdo marinado y huevo.",
+    price: 3000,
+    categoryId: japonesa.categoryId,
+    image: "/images/ramen.jpg",
+  },
+  {
+    name: "Tempura de Langostinos",
+    description: "Langostinos rebozados con salsa especial.",
+    price: 2200,
+    categoryId: japonesa.categoryId,
+    image: "/images/tempura.jpg",
+  },
+  {
+    name: "Takoyaki",
+    description: "Bolas de masa rellenas de pulpo, típicas de Osaka.",
+    price: 2000,
+    categoryId: japonesa.categoryId,
+    image: "/images/takoyaki.jpg",
+  },
+  {
+    name: "Katsu Curry",
+    description: "Cerdo empanado con arroz y curry japonés.",
+    price: 2800,
+    categoryId: japonesa.categoryId,
+    image: "/images/katsu-curry.jpg",
+  },
 
-      // Moda
-      {
-        name: "Campera de Cuero",
-        description: "Estilo y comodidad para cualquier ocasión",
-        price: 300,
-        categoryId: catModa.categoryId,
-      },
-      {
-        name: "Zapatillas Urbanas",
-        description: "Diseño moderno y suela antideslizante",
-        price: 120,
-        categoryId: catModa.categoryId,
-      },
+  // --- Corea
+  {
+    name: "Kimchi",
+    description: "Repollo fermentado picante, tradicional coreano.",
+    price: 1200,
+    categoryId: coreana.categoryId,
+    image: "/images/kimchi.jpg",
+  },
+  {
+    name: "Bibimbap",
+    description: "Arroz con carne, vegetales, huevo y salsa picante.",
+    price: 2700,
+    categoryId: coreana.categoryId,
+    image: "/images/bibimbap.jpg",
+  },
+  {
+    name: "Tteokbokki",
+    description: "Pastel de arroz picante con salsa gochujang.",
+    price: 2000,
+    categoryId: coreana.categoryId,
+    image: "/images/tteokbokki.jpg",
+  },
+  {
+    name: "Japchae",
+    description: "Fideos de batata salteados con vegetales y carne.",
+    price: 2500,
+    categoryId: coreana.categoryId,
+    image: "/images/japchae.jpg",
+  },
+  {
+    name: "Sundubu-jjigae",
+    description: "Estofado de tofu suave con mariscos o carne.",
+    price: 2600,
+    categoryId: coreana.categoryId,
+    image: "/images/sundubu.jpg",
+  },
 
-      // Hogar
-      {
-        name: "Cafetera Inteligente",
-        description: "Prepará tu café con un solo toque",
-        price: 200,
-        categoryId: catHogar.categoryId,
-      },
-      {
-        name: "Aspiradora Robot",
-        description: "Limpieza automática para tu hogar",
-        price: 400,
-        categoryId: catHogar.categoryId,
-      },
+  // --- China
+  {
+    name: "Pollo Agridulce",
+    description: "Clásico pollo chino con salsa agridulce y piña.",
+    price: 2600,
+    categoryId: china.categoryId,
+    image: "/images/pollo-agridulce.jpg",
+  },
+  {
+    name: "Arroz Frito",
+    description: "Arroz salteado con vegetales y huevo.",
+    price: 1900,
+    categoryId: china.categoryId,
+    image: "/images/arroz-frito.jpg",
+  },
+  {
+    name: "Chow Mein",
+    description: "Fideos salteados con verduras y pollo.",
+    price: 2100,
+    categoryId: china.categoryId,
+    image: "/images/chow-mein.jpg",
+  },
+  {
+    name: "Dumplings al Vapor",
+    description: "Empanaditas rellenas de cerdo y verduras.",
+    price: 2200,
+    categoryId: china.categoryId,
+    image: "/images/dumplings.jpg",
+  },
+  {
+    name: "Sopa Wantán",
+    description: "Sopa ligera con wantanes rellenos y cebollín.",
+    price: 1800,
+    categoryId: china.categoryId,
+    image: "/images/wantan.jpg",
+  },
 
-      // Deportes
-      {
-        name: "Bicicleta de Montaña",
-        description: "Resistente y perfecta para todo terreno",
-        price: 800,
-        categoryId: catDeportes.categoryId,
-      },
-      {
-        name: "Pesas Ajustables",
-        description: "Entrená con distintos niveles de peso",
-        price: 150,
-        categoryId: catDeportes.categoryId,
-      },
-    ],
-  });
+  // --- Tailandia
+  {
+    name: "Pad Thai",
+    description: "Fideos de arroz salteados con tamarindo, maní y tofu.",
+    price: 2800,
+    categoryId: tailandesa.categoryId,
+    image: "/images/pad-thai.jpg",
+  },
+  {
+    name: "Satay de Pollo",
+    description: "Brochetas de pollo marinado, servidas con salsa de maní.",
+    price: 2900,
+    categoryId: tailandesa.categoryId,
+    image: "/images/satay.jpg",
+  },
+  {
+    name: "Larb",
+    description: "Ensalada picante de carne molida con hierbas frescas y lima.",
+    price: 2600,
+    categoryId: tailandesa.categoryId,
+    image: "/images/larb.jpg",
+  },
+  {
+    name: "Sticky Rice con Mango",
+    description: "Arroz glutinoso con leche de coco y mango fresco.",
+    price: 2400,
+    categoryId: tailandesa.categoryId,
+    image: "/images/sticky-mango.jpg",
+  },
+],
+})
 
   console.log("✅ Seed completado con éxito!");
   console.log("Usuarios creados:", users.count);
