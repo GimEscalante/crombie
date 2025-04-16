@@ -3,10 +3,9 @@
 // import { PrismaClient } from '@prisma/client';
 
 
-// VER ERROR: POR QUE NO AGREGA AL CARRITO?!!
+// // VER ERROR: POR QUE NO AGREGA AL CARRITO?!!
 
-
-// const prisma = new PrismaClient();
+//  const prisma = new PrismaClient();
 
 // export async function GET(
 //   req: NextRequest,
@@ -65,6 +64,7 @@
 //     );
 //   }
 // }
+
 // //AGREGAR AL CARRITO: POST
 // export async function POST(
 //   req: Request,
