@@ -3,11 +3,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import BuyButton from "../../../../../components/BuyButton";
 
+export default async function ProductDetail({ params }: { params: { id: string } }) {
+  const { id } = params;
 
-type ProductParams = Promise<{ id: string }>
-
-export default async function ProductDetail({ params }: { params: ProductParams }) {
-  const { id } = await params;
   const productId = id;
   const res = await fetch(`${baseUrl}/api/products/${productId}`, { cache: "no-store" });
 

@@ -14,7 +14,8 @@ const CategoryPage = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await fetch("http://localhost:3000/api/categories");
+      const baseUrl = window.location.origin;
+      const res = await fetch(`${baseUrl}/api/categories`);
       const data = await res.json();
       setCategories(data.map((cat: Category) => cat.name));
     };
