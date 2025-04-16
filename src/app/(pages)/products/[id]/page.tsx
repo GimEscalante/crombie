@@ -4,14 +4,8 @@ import Image from "next/image";
 import BuyButton from "../../../../../components/BuyButton";
 
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function ProductDetail({ params }: PageProps) {
-  const { id } = params;
+export default async function ProductDetail({ params: {id}}: {params:{id:string}}) {
+  
   const res = await fetch(`${baseUrl}/api/products/${id}`, { cache: "no-store" });
 
   if (!res.ok) return notFound();
