@@ -4,8 +4,9 @@ import Image from "next/image";
 import BuyButton from "../../../../../components/BuyButton";
 
 
-export default async function ProductDetail({ params: {id}}: {params:{id:string}}) {
-  
+export default async function ProductDetail({params}: {params: Promise<{ id: string }>}) {
+  const { id } = await params;
+ 
   const res = await fetch(`${baseUrl}/api/products/${id}`, { cache: "no-store" });
 
   if (!res.ok) return notFound();
