@@ -14,7 +14,7 @@ RUN npm ci
 COPY . .
 
 # 6. Copia el archivo de entorno para que esté disponible en build
-#COPY .env .env
+COPY .env .env
 
 # 7. Establece el entorno de producción para build
 ENV NODE_ENV=production
@@ -39,7 +39,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
 
 # 13. Copia el archivo .env también en la imagen final (para runtime)
-#COPY .env .env
+COPY .env .env
 
 # 14. Variables de entorno para producción
 ENV NODE_ENV=production
