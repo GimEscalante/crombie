@@ -3,13 +3,14 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import BuyButton from "../../../../../components/BuyButton";
 
-interface ProductDetailProps {
+
+interface PageProps {
   params: {
     id: string;
   };
 }
 
-export default async function ProductDetail({ params }: ProductDetailProps) {
+export default async function ProductDetail({ params }: PageProps) {
   const { id } = params;
   const res = await fetch(`${baseUrl}/api/products/${id}`, { cache: "no-store" });
 
