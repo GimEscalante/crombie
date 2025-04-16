@@ -25,7 +25,7 @@ export default function Products() {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetch(`/api/products?page=${page}&limit=4&search=${search}`)
+    fetch(`/api/products?page=${page}&limit=6&search=${search}`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
@@ -43,19 +43,21 @@ export default function Products() {
   }, [page, search, router]);
 
   return (
-    <main className="min-h-screen bg-gray-100 text-gray-800 px-6 py-12">
+    <main className="min-h-screen bg-[#F5F5F5] text-[#1A233A] px-6 py-12">
       <SyncUser />
       <section className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-4 sm:mb-0">
-            Nuestros productos
+          <h1 className="text-4xl md:text-5xl font-serif text-[#2d3c5e] mb-4 tracking-wide">
+            NUESTROS PLATILLOS
+            <div className="w-24 h-1 bg-[#e67422] mx-auto mb-6 mt-2"></div>
           </h1>
+          
           <input
             type="text"
-            placeholder="Buscar productos..."
+            placeholder="Buscar platillos..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="p-2 border border-gray-300 rounded-lg w-80 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="p-2 border border-[#D1D5DB] rounded-full w-80 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#E07A5F] transition"
           />
         </div>
 
@@ -79,26 +81,26 @@ export default function Products() {
           <button
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
-            className={`px-4 py-2 rounded-lg border shadow-sm transition-all ${
+            className={`px-4 py-2 rounded-full border border-[#D1D5DB] shadow-sm transition-all ${
               page === 1
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-white text-blue-600 hover:bg-blue-600 hover:text-white"
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-white text-[#4A5568] hover:bg-[#E07A5F] hover:text-[#FFF8F0]"
             }`}
           >
             Anterior
           </button>
 
-          <span className="text-lg font-medium">
+          <span className="text-lg font-medium text-[#4A5568]">
             Página <strong>{page}</strong> de <strong>{totalPages}</strong>
           </span>
 
           <button
             disabled={page === totalPages}
             onClick={() => setPage(page + 1)}
-            className={`px-4 py-2 rounded-lg border shadow-sm transition-all ${
+            className={`px-4 py-2 rounded-full border border-[#D1D5DB] shadow-sm transition-all ${
               page === totalPages
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-white text-blue-600 hover:bg-blue-600 hover:text-white"
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-white text-[#4A5568] hover:bg-[#E07A5F] hover:text-[#FFF8F0]"
             }`}
           >
             Siguiente

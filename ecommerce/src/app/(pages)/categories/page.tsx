@@ -1,14 +1,8 @@
 'use client';
 
-import { JSX, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Shirt,
-  Dumbbell,
-  Home,
-  MonitorSmartphone,
-  MousePointer,
-} from 'lucide-react';
+
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState<string[]>([]);
@@ -28,27 +22,33 @@ const CategoryPage = () => {
     fetchCategories();
   }, []);
 
-  const categoryIcons: Record<string, JSX.Element> = {
-    moda: <Shirt className="w-12 h-12 text-blue-600" />,
-    deportes: <Dumbbell className="w-12 h-12 text-blue-600" />,
-    hogar: <Home className="w-12 h-12 text-blue-600" />,
-    tecnologia: <MonitorSmartphone className="w-12 h-12 text-blue-600" />,
+  const getFlagPath = (categoryName: string): string => {
+    const normalized = categoryName.toLowerCase().trim();
+  
+    if (normalized.includes("Coreana")) return "/images/banderas/corea.png";
+    if (normalized.includes("Japonesa")) return "/images/banderas/japon.png";
+    if (normalized.includes("China")) return "/images/banderas/china.png";
+    if (normalized.includes("Tailandesa")) return "/images/banderas/thai.png";
+    
+  
+    return "/images/logo.png"; 
   };
-
-  const defaultIcon = <MousePointer className="w-12 h-12 text-blue-600" />;
+  
 
   return (
-    <div className="relative flex flex-col justify-center items-center min-h-screen max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-4xl font-extrabold text-center text-blue-700 mb-4">
-        Categorías disponibles
-      </h1>
+    <div className="min-h-screen bg-[#f8f3e9] py-16 px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-serif text-[#2d3c5e] mb-4 tracking-wide">
+            NUESTRAS ESPECIALIDADES
+          </h1>
+          <div className="w-24 h-1 bg-[#e67422] mx-auto mb-6"></div>
+          <p className="text-lg text-[#2d3c5e]/80 font-light max-w-2xl mx-auto">
+            Descubre nuestra selección de auténticas cocinas asiáticas, cada una con su tradición y sabores únicos
+          </p>
+        </div>
 
-      <p className="text-lg text-center text-gray-600 max-w-2xl mb-12">
-        Te invitamos a recorrer nuestras categorías para encontrar el producto que mejor se adapte a tus necesidades.
-        Ya sea que busques lo último en tecnología, ropa con estilo o equipamiento para tu hogar, ¡acá lo vas a encontrar!
-      </p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10">
         {categories.map((category) => (
           <Link
             key={category}
@@ -56,16 +56,22 @@ const CategoryPage = () => {
             className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-transform p-8 min-h-[200px] flex flex-col items-center justify-center text-center"
           >
             <div className="mb-4">
-              {categoryIcons[category.toLowerCase()] || defaultIcon}
+              <img
+                src={getFlagPath(category)}
+                alt={`Bandera de ${category}`}
+                className="w-16 h-16 object-cover rounded-full"
+              />
             </div>
-            <h2 className="text-2xl font-semibold mb-2 capitalize">{category}</h2>
-            <p className="text-base text-gray-500">
+            <h2 className="text-2xl md:text-3xl font-serif text-[#2d3c5e] mb-4 tracking-wide">{category}</h2>
+            <p className="text-lg text-[#2d3c5e]/80 font-light max-w-1xl mx-auto">
               Ver productos de {category.toLowerCase()}
             </p>
           </Link>
         ))}
       </div>
     </div>
+  </div>
+
   );
 };
 

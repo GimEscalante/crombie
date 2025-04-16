@@ -41,7 +41,7 @@ export function AddToCartButton({ productId, userId }: Props) {
     <button
       onClick={handleAddToCart}
       disabled={loading}
-      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-sm"
+      className="bg-green-800 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
     >
       {loading ? "Agregando..." : "Agregar al carrito"}
     </button>

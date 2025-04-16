@@ -1,58 +1,58 @@
 'use client'
 
-import { MonitorSmartphone, Target, Eye } from 'lucide-react'
+import { Target, Eye } from 'lucide-react'
 import Link from 'next/link'
 
 export default function About() {
-    return (
-        <main className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-50 text-gray-800 py-12 px-6">
-            <section className="max-w-5xl mx-auto text-center">
-                <h1 className="text-5xl font-extrabold mb-6 text-blue-700 tracking-tight">Sobre Nosotros</h1>
-                <p className="text-xl mb-4 leading-relaxed">
-                    Todo comenzó con una idea simple: <span className="font-semibold text-blue-600">hacer que la tecnología de calidad sea accesible para todos</span>.
-                    Somos un equipo apasionado por los productos electrónicos, desde periféricos hasta accesorios que mejoran 
-                    tu experiencia de trabajo, juego o estudio.
-                </p>
-                <p className="text-xl mb-8 leading-relaxed">
-                    No solo vendemos productos, <span className="font-semibold text-blue-600">ofrecemos soluciones</span>. Cada artículo fue seleccionado y probado para que tengas la mejor experiencia, 
-                    con envíos seguros y atención personalizada. Queremos que cada compra <span className="italic">marque la diferencia</span> en tu día a día tecnológico.
-                </p>
+  return (
+    <main className="min-h-screen bg-[#F5F5F5] text-[#1A233A] py-12 px-6 font-serif">
+      <section className="max-w-5xl mx-auto text-center">
+        <h1 className="text-4xl md:text-5xl font-serif text-[#2d3c5e] mb-4 tracking-wide">NUESTRA HISTORIA</h1>
+        <div className="w-24 h-1 bg-[#e67422] mx-auto mb-6"></div>
+        <p className="text-xl mb-6 leading-relaxed">
+          Desde nuestro humilde comienzo, hemos sido pioneros en traer la auténtica esencia de la cocina asiática a esta ciudad.
+          Con pasión y dedicación, cada plato que servimos es un reflejo de las ricas tradiciones culinarias de Asia,
+          preparado con ingredientes frescos y de la más alta calidad.
+        </p>
+        <p className="text-xl mb-8 leading-relaxed">
+          En <span className="font-semibold text-[#E07A5F]">ASIAN FOOD</span>, no solo ofrecemos comida; brindamos una experiencia.
+          Desde los delicados rollos de sushi hasta el reconfortante ramen y los aromáticos tempuras, cada bocado está diseñado
+          para transportar tus sentidos a un viaje culinario inolvidable.
+        </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-                    <div className="bg-white shadow-xl rounded-2xl p-8 hover:scale-[1.03] transition-transform cursor-pointer border border-blue-100">
-                        <div className="flex items-center justify-center mb-4 text-blue-600">
-                            <Target className="w-12 h-12" />
-                        </div>
-                        <h2 className="text-2xl font-bold mb-2 text-blue-600">Nuestra Misión</h2>
-                        <p className="text-gray-700 text-lg">
-                            Brindar productos electrónicos de alta calidad, accesibles y confiables, 
-                            mejorando la experiencia tecnológica de cada cliente.
-                        </p>
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          <div className="bg-white shadow-md rounded-2xl p-8 hover:shadow-lg transition-shadow cursor-pointer border border-[#D1D5DB]">
+            <div className="flex items-center justify-center mb-4 text-[#4A5568]">
+              <Target className="w-12 h-12" />
+            </div>
+            <h2 className="text-2xl font-bold mb-2 text-[#E07A5F]">Nuestra Pasión</h2>
+            <p className="text-lg text-[#4A5568] leading-relaxed">
+              Nuestra misión es deleitar tu paladar con sabores auténticos y vibrantes de la cocina asiática,
+              utilizando técnicas tradicionales y presentaciones innovadoras. Queremos que cada comida sea una celebración
+              de la cultura y el arte culinario de Asia.
+            </p>
+          </div>
 
-                    <div className="bg-white shadow-xl rounded-2xl p-8 hover:scale-[1.03] transition-transform cursor-pointer border border-blue-100">
-                        <div className="flex items-center justify-center mb-4 text-blue-600">
-                            <Eye className="w-12 h-12" />
-                        </div>
-                        <h2 className="text-2xl font-bold mb-2 text-blue-600">Nuestra Visión</h2>
-                        <p className="text-gray-700 text-lg">
-                            Ser una tienda líder reconocida por su compromiso con la innovación, 
-                            la calidad y la satisfacción del cliente.
-                        </p>
-                    </div>
-                </div>
-
-                <div className="mt-16 flex justify-center">
-                    <MonitorSmartphone className="w-20 h-20 text-blue-500" />
-                </div>
-                <div className="mt-10">
-                    <Link href="/products">
-                        <button className="bg-blue-600 text-white font-semibold text-lg px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-105">
-                            Explorá nuestros productos
-                        </button>
-                    </Link>
-                </div>
-            </section>
-        </main>
-    )
+          <div className="bg-white shadow-md rounded-2xl p-8 hover:shadow-lg transition-shadow cursor-pointer border border-[#D1D5DB]">
+            <div className="flex items-center justify-center mb-4 text-[#4A5568]">
+              <Eye className="w-12 h-12" />
+            </div>
+            <h2 className="text-2xl font-bold mb-2 text-[#E07A5F]">Nuestro Compromiso</h2>
+            <p className="text-lg text-[#4A5568] leading-relaxed">
+              Visualizamos un futuro donde cada cliente pueda experimentar la riqueza y diversidad de la gastronomía asiática
+              sin salir de la ciudad. Aspiramos a ser el destino predilecto para aquellos que buscan una experiencia culinaria
+              auténtica, memorable y llena de sabor en cada visita o pedido.
+            </p>
+          </div>
+        </div>
+        <div className="mt-10">
+          <Link href="/categories">
+            <button className="mt-8 bg-[#e67422] text-white px-8 py-3 rounded font-medium hover:bg-[#d15e0c] transition-all pointer-events-auto">
+              DESCUBRI NUESTRO MENU
+            </button>
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
 }
