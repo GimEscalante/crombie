@@ -58,7 +58,8 @@ export default function CreateProductPage() {
 
   return (
     <main className="max-w-xl mx-auto p-8 bg-white rounded-xl shadow mt-10">
-      <h1 className="text-2xl font-bold mb-6 text-blue-600">Crear nuevo producto</h1>
+      <h1 className="text-2xl font-serif text-[#1A233A] mb-6 text-center">CREAR NUEVO PRODUCTO</h1>
+      <div className="w-24 h-1 bg-[#e67422] mx-auto mb-6"></div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
@@ -107,7 +108,7 @@ export default function CreateProductPage() {
 
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="bg-[#e67422] hover:bg-[#e67422c5] text-white px-4 py-2 rounded"
         >
           Crear producto
         </button>

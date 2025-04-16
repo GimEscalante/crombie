@@ -30,8 +30,6 @@ const CategoryPage = () => {
     "comida tailandesa": "/images/banderas/thai.png",
   };
   
-  
-
   return (
     <div className="min-h-screen bg-[#f8f3e9] py-16 px-6">
       <div className="max-w-6xl mx-auto">

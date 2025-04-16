@@ -92,7 +92,8 @@ export default function EditProductPage() {
 
   return (
     <main className="max-w-3xl mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">Editar producto</h1>
+      <h1 className="text-2xl font-serif text-[#1A233A] mb-6 text-center">EDITAR PRODUCTO</h1>
+      <div className="w-24 h-1 bg-[#e67422] mx-auto mb-6"></div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -132,7 +133,7 @@ export default function EditProductPage() {
         </select>
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-[#e67422] hover:bg-[#e67422c5] text-white px-4 py-2 rounded"
         >
           Guardar cambios
         </button>

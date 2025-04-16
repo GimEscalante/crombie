@@ -1,4 +1,3 @@
-// En /app/api/auth/check/route.ts
 import { getAuth } from "@clerk/nextjs/server"; 
 import { NextRequest, NextResponse } from "next/server";
 

@@ -20,7 +20,7 @@ export default function AdminPage() {
     // Verificar si el usuario está autenticado con Clerk
     if (isLoaded) {
       if (!isSignedIn) {
-        router.push("/"); // Redirigir al home si no está autenticado
+        router.push("/sign-in"); // Redirigir al sign-in si no está autenticado
         return;
       }
       
@@ -32,7 +32,7 @@ export default function AdminPage() {
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/products?limit=100"); // Aumentamos el límite para asegurar que traiga todos
+      const res = await fetch("/api/products?limit=100"); 
       
       if (!res.ok) {
         throw new Error(`Error: ${res.status}`);
@@ -49,7 +49,6 @@ export default function AdminPage() {
     }
   };
 
-  // Filtrar productos a medida que se escribe
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setFilteredProducts(products);
@@ -78,7 +77,6 @@ export default function AdminPage() {
       }
 
       setProducts(products.filter((p) => p.productId !== productId));
-      // También actualizamos los productos filtrados
       setFilteredProducts(filteredProducts.filter((p) => p.productId !== productId));
     } catch (err) {
       console.error("Error deleting product:", err);
@@ -86,7 +84,6 @@ export default function AdminPage() {
     }
   };
 
-  // Mostrar pantalla de carga mientras se verifica la autenticación
   if (!isLoaded) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -95,14 +92,13 @@ export default function AdminPage() {
     );
   }
 
-  // No renderizar nada mientras redirecciona si no está autenticado
   if (isLoaded && !isSignedIn) {
     return null;
   }
-
   return (
     <main className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-6">Panel de Administración</h1>
+      <h1 className="text-3xl font-serif text-[#1A233A] text-center mb-6">PANEL DE ADMINISTRACION:</h1>
+      <div className="w-24 h-1 bg-[#e67422] mx-auto mb-6"></div>
       
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
         <div className="w-full sm:w-2/3">
