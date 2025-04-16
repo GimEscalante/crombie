@@ -7,10 +7,7 @@ export async function GET(request: NextRequest) {
     const category = request.nextUrl.pathname.split("/").pop(); 
     if (!category) throw new NotFoundError("Categoría no especificada");
 
-    
-
     const categoryName = decodeURIComponent(category).toLowerCase();
-
     const allCategories = await prisma.category.findMany();
 
     const matchedCategory = allCategories.find(
