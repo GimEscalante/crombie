@@ -14,7 +14,7 @@ RUN npm ci
 COPY . .
 
 # 6. Copia el archivo de entorno para que esté disponible en build
-COPY .env .env
+#COPY .env .env
 
 # 7. Establece el entorno de producción para build
 ENV NODE_ENV=production
