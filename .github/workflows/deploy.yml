@@ -13,6 +13,21 @@ jobs:
       - name: Clonar el repositorio
         uses: actions/checkout@v3
 
+        # Nuevo paso: Crear archivo .env antes del build
+      - name: Crear archivo .env para el build
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" > .env
+          echo "GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > .env
+          echo "GCP_BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME }}" > .env
+          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" > .env
+          echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" > .env
+          echo "CLERK_SIGN_IN_URL=${{ secrets.CLERK_SIGN_IN_URL }}" > .env
+          echo "CLERK_SIGN_UP_URL=${{ secrets.CLERK_SIGN_UP_URL }}" > .env
+          echo "CLERK_AFTER_SIGN_IN_URL=${{ secrets.CLERK_AFTER_SIGN_IN_URL }}" > .env
+          echo "CLERK_AFTER_SIGN_UP_URL=${{ secrets.CLERK_AFTER_SIGN_UP_URL }}" > .env
+
+
       - name: Autenticarse en Google Cloud
         uses: google-github-actions/auth@v1
         with:
