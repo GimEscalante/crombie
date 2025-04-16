@@ -10,7 +10,7 @@ import { PrismaClient } from '@prisma/client';
 export async function GET(
   req: NextRequest,
   { params }: { params: { userId: string } }
-) {
+  ) {
   const userId = params.userId;
   
   if (!userId) {

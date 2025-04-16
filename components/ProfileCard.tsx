@@ -1,3 +1,5 @@
+//Para el futuro:
+
 import Image from 'next/image';
 interface ProfileCardProps {
     name: string;
