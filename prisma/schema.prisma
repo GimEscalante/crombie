@@ -7,23 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model cart {
-  cartId   String     @id
-  userId   String     @unique(map: "Cart_userId_key")
-  user     user       @relation(fields: [userId], references: [userId], map: "Cart_userId_fkey")
-  cartitem cartitem[]
-}
+model cartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [productId], onDelete: Cascade)
 
-model cartitem {
-  cartItemId String  @id
-  cartId     String
-  productId  String
-  quantity   Int     @default(1)
-  cart       cart    @relation(fields: [cartId], references: [cartId], map: "CartItem_cartId_fkey")
-  product    Product @relation(fields: [productId], references: [productId], map: "CartItem_productId_fkey")
-
-  @@index([cartId], map: "CartItem_cartId_fkey")
-  @@index([productId], map: "CartItem_productId_fkey")
+  @@index([userId])
+  @@index([productId])
 }
 
 model category {
@@ -39,7 +33,7 @@ model Product {
   price       Int
   categoryId  String     @default("")
   image       String     @default("")
-  cartitem    cartitem[]
+  cartitems   cartItem[]
   category    category   @relation(fields: [categoryId], references: [categoryId])
 
   @@index([categoryId],map:"Product_categoryId_fkey")
@@ -52,7 +46,6 @@ model user {
   email    String    @unique(map: "User_email_key")
   password String?
   role     user_role @default(USER)
-  cart     cart?
 }
 
 enum user_role {

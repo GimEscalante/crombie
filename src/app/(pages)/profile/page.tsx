@@ -1,4 +1,5 @@
 "use client";
+//Proximamente pagina de perfil de usuario
 
 import ProfileCard from "../../../../components/ProfileCard";
 import { useUser } from "@clerk/nextjs";

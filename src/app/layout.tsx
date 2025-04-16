@@ -6,7 +6,6 @@ import NavBar from "../../components/NavBar";
 import { Suspense } from "react";
 import Footer from "../../components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
-import SyncUser from "../../components/SyncUser";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -45,8 +44,7 @@ export default function RootLayout({
             <NavBar />
 
             <Suspense>
-              <SyncUser />
-
+             
               
               <main className="flex-1">
                 {children}
