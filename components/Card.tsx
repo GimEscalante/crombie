@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
-//import { AddToCartButton } from "./AddToCartButton";
+import { AddToCartButton } from "./AddToCartButton";
 import { useUser } from "@clerk/nextjs";
 
 interface CardProps {
@@ -18,7 +18,7 @@ interface CardProps {
 }
 
 export default function Card({
-  // productId,
+  productId,
   title,
   description,
   price,
@@ -65,7 +65,7 @@ export default function Card({
           >
             Ver más
           </Link>
-          {/* <AddToCartButton productId={productId} /> */}
+          <AddToCartButton productId={productId} />
         </div>
       </div>
     </div>
