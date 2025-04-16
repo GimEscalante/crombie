@@ -45,13 +45,13 @@ jobs:
 
       - name: Construir y enviar imagen a Artifact Registry
         run: |
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/mi-repo/mi-app .
-          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/mi-repo/mi-app
+          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/gcr.io/asianfood .
+          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/gcr.io/asianfood 
 
       - name: Desplegar en Cloud Run
         run: |
           gcloud run deploy mi-app \
-            --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/mi-repo/mi-app \
+            --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/gcr.io/asianfood  \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \
