@@ -1,69 +1,70 @@
-import { NextRequest, NextResponse } from "next/server";
-//import { prisma } from "@/lib/prisma"; 
-import { PrismaClient } from '@prisma/client';
+// import { NextRequest, NextResponse } from "next/server";
+// //import { prisma } from "@/lib/prisma"; 
+// import { PrismaClient } from '@prisma/client';
 
 
-// VER ERROR: POR QUE NO AGREGA AL CARRITO?!!
+// // VER ERROR: POR QUE NO AGREGA AL CARRITO?!!
 
- const prisma = new PrismaClient();
+//  const prisma = new PrismaClient();
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  const userId = params.userId;
+// export async function GET(
+//   req: NextRequest,
+//   { params }: { params: { userId: string } }
+// ) {
+//   const userId = params.userId;
   
-  if (!userId) {
-    return NextResponse.json({ error: "Usuario no autenticado" }, { status: 401 });
-  }
+//   if (!userId) {
+//     return NextResponse.json({ error: "Usuario no autenticado" }, { status: 401 });
+//   }
 
-  const url = new URL(req.url);
-  if (url.pathname.endsWith('/count')) {
-    try {
-      const result = await prisma.cartItem.aggregate({
-        where: { userId },
-        _sum: {
-          quantity: true,
-        },
-      });
+//   const url = new URL(req.url);
+//   if (url.pathname.endsWith('/count')) {
+//     try {
+//       const result = await prisma.cartItem.aggregate({
+//         where: { userId },
+//         _sum: {
+//           quantity: true,
+//         },
+//       });
   
-      const count = result._sum.quantity || 0;
-      return NextResponse.json({ count });
-    } catch (error) {
-      console.error("Error al obtener el conteo del carrito:", error);
-      return NextResponse.json(
-        { error: "Error al procesar la solicitud" },
-        { status: 500 }
-      );
-    }
-  }
+//       const count = result._sum.quantity || 0;
+//       return NextResponse.json({ count });
+//     } catch (error) {
+//       console.error("Error al obtener el conteo del carrito:", error);
+//       return NextResponse.json(
+//         { error: "Error al procesar la solicitud" },
+//         { status: 500 }
+//       );
+//     }
+//   }
 
-  try {
-    const cartItems = await prisma.cartItem.findMany({
-      where: { userId },
-      include: {
-        product: {
-          select: {
-            productId: true,
-            name: true,
-            price: true,
-            image: true,
-          },
-        },
-      },
-    });
+//   try {
+//     const cartItems = await prisma.cartItem.findMany({
+//       where: { userId },
+//       include: {
+//         product: {
+//           select: {
+//             productId: true,
+//             name: true,
+//             price: true,
+//             image: true,
+//           },
+//         },
+//       },
+//     });
 
-    return NextResponse.json({
-      items: cartItems,
-    });
-  } catch (error) {
-    console.error("Error al obtener el carrito:", error);
-    return NextResponse.json(
-      { error: "Error al procesar la solicitud" },
-      { status: 500 }
-    );
-  }
-}
+//     return NextResponse.json({
+//       items: cartItems,
+//     });
+//   } catch (error) {
+//     console.error("Error al obtener el carrito:", error);
+//     return NextResponse.json(
+//       { error: "Error al procesar la solicitud" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 // //AGREGAR AL CARRITO: POST
 // export async function POST(
 //   req: Request,
