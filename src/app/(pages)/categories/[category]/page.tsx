@@ -1,6 +1,5 @@
 import { baseUrl } from "@/lib/definitions";
 import { notFound } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
 import Card from "../../../../../components/Card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -29,8 +28,7 @@ export default async function CategoryPage({ params }: { params: CategoryParams 
   if (!res.ok) return notFound();
 
   const products: Product[] = await res.json();
-  const user = await currentUser(); 
-  const userId = user?.publicMetadata?.userId as string | null;
+  const userId = null;
 
   return (
     <main className="min-h-screen flex flex-col">
