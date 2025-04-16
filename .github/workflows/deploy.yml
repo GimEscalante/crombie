@@ -56,6 +56,8 @@ jobs:
             --service-account github-actions@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com \
             --set-env-vars "NODE_ENV=production" \
             --set-env-vars "DATABASE_URL=${{ secrets.DATABASE_URL }}"
+            --set-env-vars "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}"
+            --set-env-vars "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}"
 
       # - name: Ejecutar Migraciones en Cloud SQL
       #   run: |
