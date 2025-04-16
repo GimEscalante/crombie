@@ -1,5 +1,5 @@
 "use client";
-//A futuro: Boton para que se puedan agregar productos a un carrito, si es que hay un usuario logeado 
+
 import { useState } from "react";
 
 type Props = {
