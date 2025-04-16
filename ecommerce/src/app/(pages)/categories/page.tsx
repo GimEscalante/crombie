@@ -22,17 +22,13 @@ const CategoryPage = () => {
     fetchCategories();
   }, []);
 
-  const getFlagPath = (categoryName: string): string => {
-    const normalized = categoryName.toLowerCase().trim();
-  
-    if (normalized.includes("Coreana")) return "/images/banderas/corea.png";
-    if (normalized.includes("Japonesa")) return "/images/banderas/japon.png";
-    if (normalized.includes("China")) return "/images/banderas/china.png";
-    if (normalized.includes("Tailandesa")) return "/images/banderas/thai.png";
-    
-  
-    return "/images/logo.png"; 
+  const categoryImages: { [key: string]: string } = {
+    "comida japonesa": "/images/banderas/japon.png",
+    "comida china": "/images/banderas/china.png",
+    "comida coreana": "/images/banderas/corea.png",
+    "comida tailandesa": "/images/banderas/thai.png",
   };
+  
   
 
   return (
@@ -57,13 +53,13 @@ const CategoryPage = () => {
           >
             <div className="mb-4">
               <img
-                src={getFlagPath(category)}
+                src={categoryImages[category.toLowerCase()]}
                 alt={`Bandera de ${category}`}
-                className="w-16 h-16 object-cover rounded-full"
+                className="w-16 h-16 object-cover"
               />
             </div>
             <h2 className="text-2xl md:text-3xl font-serif text-[#2d3c5e] mb-4 tracking-wide">{category}</h2>
-            <p className="text-lg text-[#2d3c5e]/80 font-light max-w-1xl mx-auto">
+            <p className="text-lg text-[#e67422] font-light max-w-1xl mx-auto">
               Ver productos de {category.toLowerCase()}
             </p>
           </Link>

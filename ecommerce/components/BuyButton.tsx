@@ -8,9 +8,9 @@ export default function BuyButton() {
   return (
     <button
       onClick={handleBuy}
-      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl text-lg font-semibold shadow-lg transition"
+      className="w-50 bg-[#E07A5F] hover:bg-[#D06045] text-[#FFF8F0] py-3 px-6 rounded text-md font-semibold shadow-md transition-colors"
     >
-      Comprar ahora
+      Comprar
     </button>
   );
 }

@@ -48,7 +48,7 @@ export default function Products() {
       <section className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
           <h1 className="text-4xl md:text-5xl font-serif text-[#2d3c5e] mb-4 tracking-wide">
-            NUESTROS PLATILLOS
+            TODOS LOS PLATILLOS
             <div className="w-24 h-1 bg-[#e67422] mx-auto mb-6 mt-2"></div>
           </h1>
           
