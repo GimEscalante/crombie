@@ -1,10 +1,22 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+// middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default clerkMiddleware();
+export function middleware(request: NextRequest) {
+  // Obtener la cookie de autenticación de Clerk
+  const clerkSession = request.cookies.get("__session");
+  
+  // Verificar si la ruta es una ruta de administrador
+  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
+  
+  // Si es ruta de administrador y no hay sesión, redirigir a la página principal
+  if (isAdminRoute && !clerkSession) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+  
+  return NextResponse.next();
+}
 
 export const config = {
-    matcher: [
-      "/((?!api|_next/static|_next/image|favicon.ico|auth/sign-in|auth/sign-up).*)",
-    ],
-  };
-  
+  matcher: ['/admin/:path*'],
+};
