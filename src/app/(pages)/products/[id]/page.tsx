@@ -5,9 +5,7 @@ import BuyButton from "../../../../../components/BuyButton";
 
 export default async function ProductDetail({ params }: { params: { id: string } }) {
   const { id } = params;
-
-  const productId = id;
-  const res = await fetch(`${baseUrl}/api/products/${productId}`, { cache: "no-store" });
+  const res = await fetch(`${baseUrl}/api/products/${id}`, { cache: "no-store" });
 
   if (!res.ok) return notFound();
 
